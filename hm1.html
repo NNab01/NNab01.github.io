@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulazione Attacco ai Server</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 20px;
+            background-color: #e0e0e0;
+        }
+        h2 {
+            color: #444;
+        }
+        #inputArea {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chart-container {
+            display: flex;
+            flex-direction: column; /* Disposizione verticale */
+            align-items: center; /* Centra i grafici orizzontalmente */
+            gap: 20px; /* Spazio tra i grafici */
+        }
+        #graficoPenetrazione, #graficoDistribuzione {
+            width: 80%; /* Larghezza del grafico */
+            max-width: 80%; /* Larghezza massima */
+            max-height: 60%;
+            border: 1px solid #ccc; /* Cornice sottile */
+            border-radius: 5px; /* Angoli arrotondati */
+            background-color: #fff; /* Sfondo bianco per i grafici */
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Risultato della Simulazione</h2>
+
+    <div id="inputArea">
+        <label>Numero di Server: <input type="number" id="totalServers" value="50" min="1"></label>
+        <label>Numero di Hacker: <input type="number" id="totalHackers" value="10" min="1"></label>
+        <label>Probabilità di Successo: <input type="number" id="successProbability" value="0.4" step="0.01" min="0" max="1"></label>
+        <button onclick="eseguiSimulazione()">Inizia Simulazione</button>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="graficoPenetrazione" width="800" height="400"></canvas>
+        <canvas id="graficoDistribuzione" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        let graficoPenetrazione = null;
+        let graficoDistribuzione = null;
+
+        function generaColoreCasuale() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgba(${r}, ${g}, ${b}, 1)`;
+        }
+
+        function eseguiSimulazione() {
+            const numeroServer = parseInt(document.getElementById('totalServers').value);
+            const numeroHackers = parseInt(document.getElementById('totalHackers').value);
+            const probabilita = parseFloat(document.getElementById('successProbability').value);
+
+            const cronologiaPenetrazione = Array.from({ length: numeroHackers }, () => Array(numeroServer).fill(0));
+            const statiServer = Array.from({ length: numeroHackers }, () => Array(numeroServer).fill(0));
+            const colori = Array.from({ length: numeroHackers }, () => generaColoreCasuale());
+
+            for (let h = 0; h < numeroHackers; h++) {
+                let successiCumulativi = 0;
+                for (let s = 0; s < numeroServer; s++) {
+                    if (Math.random() < probabilita) {
+                        statiServer[h][s] = 1;
+                        successiCumulativi++;
+                    }
+                    cronologiaPenetrazione[h][s] = successiCumulativi;
+                }
+            }
+
+            const datiDistribuzione = calcolaDatiDistribuzione(statiServer, numeroServer);
+            creaGraficoPenetrazione(cronologiaPenetrazione, numeroServer, numeroHackers, colori);
+            creaGraficoDistribuzione(datiDistribuzione, numeroServer);
+        }
+
+        function calcolaDatiDistribuzione(statiServer, numeroServer) {
+            let conteggi = Array(numeroServer + 1).fill(0);
+            for (let h = 0; h < statiServer.length; h++) {
+                const totalePenetrazioni = statiServer[h].reduce((acc, val) => acc + val, 0);
+                conteggi[totalePenetrazioni]++;
+            }
+            return conteggi;
+        }
+
+        function creaGraficoPenetrazione(dati, numeroServer, numeroHackers, colori) {
+            const etichette = Array.from({ length: numeroServer }, (_, i) => `Server ${i + 1}`);
+            const dataset = dati.map((storia, h) => ({
+                label: `Hacker ${h + 1}`,
+                data: storia,
+                borderColor: colori[h % colori.length],
+                fill: false,
+                tension: 0.1
+            }));
+
+            if (graficoPenetrazione) {
+                graficoPenetrazione.destroy();
+            }
+
+            const ctx = document.getElementById('graficoPenetrazione').getContext('2d');
+
+            graficoPenetrazione = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: etichette,
+                    datasets: dataset
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Server'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Successi'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function creaGraficoDistribuzione(dati, numeroServer) {
+            const etichette = Array.from({ length: numeroServer + 1 }, (_, i) => i);
+            const dataset = {
+                label: 'Frequenza Hacker',
+                data: dati,
+                backgroundColor: 'rgba(153, 102, 255, 0.7)',
+                borderWidth: 1
+            };
+
+            if (graficoDistribuzione) {
+                graficoDistribuzione.destroy();
+            }
+
+            const ctx = document.getElementById('graficoDistribuzione').getContext('2d');
+
+            graficoDistribuzione = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: etichette,
+                    datasets: [dataset]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Numero di Successi'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Frequenza'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = eseguiSimulazione;
+    </script>
+</body>
+</html>
