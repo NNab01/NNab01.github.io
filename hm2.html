@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis of Mean and Variance Behavior</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main, .exercise {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        code {
+            background-color: #e7f4f9;
+            color: #34495e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 1.1em;
+        }
+        ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+        /* Styling for block code segments */
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 1.1em;
+        }
+        /* Styling for section headers */
+        .section-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Analysis of Mean and Variance in Simulations</h1>
+</header>
+
+<!-- Section for Definitions -->
+<h2 class="section-title">Definitions</h2>
+<main>
+    <p>
+        This page explains the behavior of mean and variance over time for both **Bernoulli processes** and **random walks**. It discusses the differences between absolute and relative frequency trajectories, along with the impact of different distributions.
+    </p>
+
+    <h2>1. Mean and Variance in Bernoulli Processes</h2>
+    <p><strong>Absolute Frequency:</strong></p>
+    <ul>
+        <li><strong>Mean:</strong> In a Bernoulli process, the mean represents the cumulative number of successes over time. It increases steadily as each trial potentially adds successes, growing proportionally to the success probability \( p \).</li>
+        <li><strong>Variance:</strong> Variance also increases over time, widening as the number of trials increases. It grows at a slower rate than the mean due to the factor \( p(1 - p) \), which accounts for the probability of both success and failure.</li>
+    </ul>
+
+    <p><strong>Relative Frequency:</strong></p>
+    <ul>
+        <li><strong>Mean:</strong> The mean for relative frequency tends to stabilize as the number of trials increases. The trajectory of the mean starts off volatile but converges towards \( p \) as the number of trials grows.</li>
+        <li><strong>Variance:</strong> The variance decreases over time, as relative frequency becomes more stable and centered around \( p \), with fluctuations diminishing as the number of trials increases.</li>
+    </ul>
+
+    <h2>2. Mean and Variance in Random Walks</h2>
+    <p><strong>Absolute Frequency:</strong></p>
+    <ul>
+        <li><strong>Mean:</strong> In random walks, the mean tracks the net movement. Over time, the expected mean stays close to zero (if there is no bias), but individual realizations can diverge widely.</li>
+        <li><strong>Variance:</strong> Variance grows quadratically with time since the walk spreads out further from the origin with each additional step.</li>
+    </ul>
+
+    <p><strong>Relative Frequency:</strong></p>
+    <ul>
+        <li><strong>Mean:</strong> Like the Bernoulli case, the relative frequency in random walks stabilizes over time, reflecting the expected probability of a step in either direction.</li>
+        <li><strong>Variance:</strong> Variance in relative frequency diminishes over time as fluctuations average out. In a large number of trials, the distribution becomes centered around the expected proportion.</li>
+    </ul>
+
+    <h2>3. Comparing Distributions</h2>
+    <p><strong>Absolute Number of Successes vs Relative Frequencies:</strong></p>
+    <ul>
+        <li><strong>Absolute Number of Successes:</strong> The absolute distribution of successes widens with time, becoming more spread out as successes accumulate. The mean increases steadily, while the variance grows as more trials occur.</li>
+        <li><strong>Relative Frequencies:</strong> The relative frequency distribution, on the other hand, becomes tighter over time, with fluctuations shrinking as trials accumulate. The mean of the relative frequency converges toward the true probability \( p \) as the number of trials increases, while variance decreases.</li>
+    </ul>
+</main>
+
+<!-- Section for Exercise -->
+<h2 class="section-title">Exercise</h2>
+<div class="exercise">
+    <p><strong>Assignment:</strong></p>
+    <p>Refine your Euler–Maruyama simulator to approximate numerical solutions of stochastic differential equations (SDEs), by implementing the following variants within the existing framework:</p>
+    <ul>
+        <li><strong>A.</strong> Jumps -1 and +1 with probability \( p \) (random walk).</li>
+        <li><strong>B.</strong> Absolute and relative frequency trajectories.</li>
+        <li><strong>C.</strong> Final distribution and intermediate distributions (at a selected internal time/step from the GUI), including mean and variance. Make the implementation parametric so that a single interface handles all cases.</li>
+    </ul>
+    <p>You can find the code for this exercise <a href="https://github.com/NNab01/NNab01.github.io/blob/main/hm2ex.html">here</a>, and the online result can be accessed <a href="hm2ex.html">here</a>.</p>
+</div>
+
+<footer>
+    <p>&copy; 2024 Analysis of Mean and Variance. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
