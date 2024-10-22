@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why the Median Minimizes the Sum of Absolute Deviations</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        code {
+            background-color: #e7f4f9;
+            color: #34495e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 1.1em;
+        }
+        ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 1.1em;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Why the Median Minimizes the Sum of Absolute Deviations</h1>
+</header>
+
+<main>
+    <h2>Introduction</h2>
+    <p>
+        The goal is to prove that the median of a set of numbers minimizes the sum of absolute deviations, that is, for a given set of numbers 
+        <code>x(1), x(2), ..., x(n)</code>, the value of <code>c</code> that minimizes 
+        the sum <code>S(c) = Σ |x(i) - c|</code> is the median of the set.
+    </p>
+
+    <h2>Step-by-Step Explanation</h2>
+
+    <h3>1. Definition of Absolute Deviation</h3>
+    <p>
+        For a set of numbers <code>x(1), x(2), ..., x(n)</code>, the absolute deviation from a point <code>c</code> is defined as 
+        <code>|x(i) - c|</code> for each <code>x(i)</code>. The sum of absolute deviations is the sum of these individual deviations:
+    </p>
+    <pre>
+        S(c) = Σ |x(i) - c|
+    </pre>
+
+    <h3>2. Behavior of the Function S(c)</h3>
+    <p>
+        The absolute deviation function <code>|x(i) - c|</code> is piecewise linear, with a slope of -1 when <code>c</code> is less than <code>x(i)</code> 
+        and a slope of +1 when <code>c</code> is greater than <code>x(i)</code>. Therefore, the sum of absolute deviations <code>S(c)</code> is a piecewise 
+        linear function as well, with changes in slope occurring at the values <code>x(1), x(2), ..., x(n)</code>.
+    </p>
+
+    <h3>3. Slope Changes and Minimization</h3>
+    <p>
+        When <code>c</code> is less than the median, there are more terms in the sum that decrease as <code>c</code> increases (slope = -1). When <code>c</code> 
+        is greater than the median, there are more terms that increase as <code>c</code> increases (slope = +1). Therefore, the sum of absolute deviations 
+        decreases as <code>c</code> approaches the median from either side.
+    </p>
+
+    <h3>4. Why the Median Minimizes the Sum</h3>
+    <p>
+        The median is defined as the value that splits the data into two equal halves. At the median, the number of terms that increase and decrease as 
+        <code>c</code> changes are balanced. Therefore, the sum of absolute deviations is minimized when <code>c</code> equals the median, as the slopes 
+        of the function to the left and right of the median change symmetrically.
+    </p>
+
+    <h3>5. Formal Proof Using Derivatives</h3>
+    <p>
+        To formally prove this, consider the derivative of <code>S(c)</code> with respect to <code>c</code>:
+    </p>
+    <pre>
+        dS(c)/dc = Σ sign(x(i) - c)
+    </pre>
+    <p>
+        The derivative is the sum of the signs of the differences <code>x(i) - c</code>. When <code>c</code> is less than the median, 
+        more terms contribute a negative sign, so the derivative is negative, indicating that <code>S(c)</code> decreases. 
+        When <code>c</code> is greater than the median, more terms contribute a positive sign, so the derivative is positive, 
+        indicating that <code>S(c)</code> increases. At the median, the number of positive and negative terms is balanced, 
+        so the derivative is zero and the function reaches a minimum.
+    </p>
+
+    <h2>Conclusion</h2>
+    <p>
+        The sum of absolute deviations is minimized at the median because it is the point where the number of terms increasing and 
+        decreasing is balanced. This balance makes the median the optimal value of <code>c</code> for minimizing the total deviation.
+    </p>
+
+    <h2>Conceptual Approaches to Defining "Location" or "Central Tendency" Statistics</h2>
+    <p>
+        The concept of central tendency (or location) can be understood as the point or value that attempts to represent the 
+        entire distribution of data in some meaningful way. There are various ways to define such a "location" statistic, each 
+        with its own underlying assumptions and applications. The generalization of these concepts can lead to an infinite number 
+        of different definitions.
+    </p>
+
+    <h3>1. Common Definitions of Central Tendency</h3>
+    <ul>
+        <li><strong>Mean (Arithmetic Average):</strong> The sum of all data points divided by the number of points. It minimizes the sum of squared deviations from the data.</li>
+        <li><strong>Median:</strong> The middle value when data points are arranged in order. It minimizes the sum of absolute deviations.</li>
+        <li><strong>Mode:</strong> The most frequent value in a dataset. It represents the value with the highest probability or frequency.</li>
+        <li><strong>Midrange:</strong> The average of the minimum and maximum values in the dataset. It gives a rough estimate of central tendency based on extremes.</li>
+    </ul>
+
+    <h3>2. Weighted Averages</h3>
+    <p>
+        The idea of central tendency can be generalized by assigning different weights to the data points. For example, 
+        a <strong>weighted mean</strong> gives more importance to certain values. This generalization allows for the inclusion of 
+        domain knowledge or external factors when determining the central point.
+    </p>
+
+    <h3>3. Geometric and Harmonic Means</h3>
+    <p>
+        The <strong>geometric mean</strong> is used when data points are multiplicatively related (e.g., rates of growth), 
+        while the <strong>harmonic mean</strong> is used in cases involving rates or ratios. These means provide alternatives 
+        to the arithmetic mean when the underlying relationships between data points require different treatments.
+    </p>
+
+    <h3>4. Percentiles and Quantiles</h3>
+    <p>
+        Central tendency can also be generalized to any <strong>quantile</strong>, not just the median (which is the 50th percentile). 
+        Other quantiles, such as the 25th percentile (first quartile) or 75th percentile (third quartile), may also be used 
+        to describe the central location of a distribution, depending on the context.
+    </p>
+
+    <h3>5. Generalized Means</h3>
+    <p>
+        The family of <strong>generalized means</strong> includes the arithmetic, geometric, and harmonic means as special cases. 
+        A generalized mean is defined as:
+    </p>
+    <pre>
+        M_p(x_1, x_2, ..., x_n) = \left( \frac{1}{n} \sum_{i=1}^{n} x_i^p \right)^{1/p}
+    </pre>
+    <p>
+        where <code>p</code> can take any real value. For <code>p = 1</code>, the generalized mean becomes the arithmetic mean; 
+        for <code>p = 0</code>, it becomes the geometric mean; and for <code>p = -1</code>, it becomes the harmonic mean. 
+        By changing the value of <code>p</code>, we can define an infinite number of different means.
+    </p>
+
+    <h3>6. Median of Absolute Deviations and Other Robust Statistics</h3>
+    <p>
+        Some statistics aim to be robust against outliers, such as the <strong>median of absolute deviations</strong> (MAD), 
+        which is a robust measure of variability. Other robust methods can be designed to provide alternative central tendency 
+        measures that are less sensitive to extreme values.
+    </p>
+
+    <h3>7. Central Tendency Based on Optimization</h3>
+    <p>
+        The general concept of central tendency can be framed as an optimization problem, where the "best" center minimizes a 
+        given loss function. Depending on the chosen loss function (e.g., squared deviations, absolute deviations, or something 
+        else), different central tendency measures can be derived. This approach leads to the possibility of defining an infinite 
+        number of central tendency measures by varying the loss function.
+    </p>
+
+</main>
+<h2 class="section-title">Exercise</h2>
+<div class="exercise">
+    <p><strong>Assignment:</strong></p>
+    <p>Refine your SDE simulator to simulate a continuous time process where we can have an attack (indicated with a jump of +1) at any time with a constant rate of attack. To create the approximation of time continuity subdivide your reference temporal window into numerous intervals of vanishing size dt = 1/n and to each infinitesimal interval assign a probability of a +1 "jump" (attack success) equal to Lambda * dt, where Lambda is a simulation parameter, having the meaning of expected total number of attacks in the reference period.</p>
+    <p>You can find the code for this exercise <a href="https://github.com/NNab01/NNab01.github.io/blob/main/hm3ex.html">here</a>, and the online result can be accessed <a href="hm3ex.html">here</a>.</p>
+</div>
+<footer>
+    <p>&copy; 2024 Minimizing the Sum of Absolute Deviations. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
