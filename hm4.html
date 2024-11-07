@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Concept of Statistical Independence</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 20px;
+            background-color: #e0e0e0;
+        }
+        h2 {
+            color: #444;
+        }
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .section {
+            text-align: left;
+            color: #333;
+            width: 100%;
+        }
+        .section h3 {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h2>Understanding Statistical Independence</h2>
+
+    <div class="content-container">
+        <div class="section">
+            <h3>Concept</h3>
+            <p>Statistical independence is a key principle in probability theory. It describes a scenario where two events are independent if the occurrence of one event does not affect the probability of the other event happening.</p>
+            <p>For two events \(A\) and \(B\), they are independent if the probability of both events occurring simultaneously is equal to the product of their individual probabilities:</p>
+        </div>
+
+        <div class="section">
+            <h3>Formal Definition</h3>
+            <p>Two events \(A\) and \(B\) are considered independent if and only if:</p>
+            <p><strong>\( P(A \cap B) = P(A) \cdot P(B) \)</strong></p>
+            <p>Here:</p>
+            <ul>
+                <li>\( P(A \cap B) \): Probability that both events \(A\) and \(B\) occur simultaneously.</li>
+                <li>\( P(A) \): Probability that event \(A\) occurs.</li>
+                <li>\( P(B) \): Probability that event \(B\) occurs.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Example: Rolling Two Dice</h3>
+            <p>Consider rolling two fair dice. Let:</p>
+            <ul>
+                <li><strong>\(A\)</strong>: The event that the first die shows a 4.</li>
+                <li><strong>\(B\)</strong>: The event that the second die shows a 6.</li>
+            </ul>
+            <p>Since the outcome of one die does not affect the outcome of the other, events \(A\) and \(B\) are independent. Their probabilities are calculated as follows:</p>
+            <ul>
+                <li><strong>\( P(A) = \frac{1}{6} \)</strong> (probability that the first die shows 4).</li>
+                <li><strong>\( P(B) = \frac{1}{6} \)</strong> (probability that the second die shows 6).</li>
+                <li><strong>\( P(A \cap B) = \frac{1}{6} \times \frac{1}{6} = \frac{1}{36} \)</strong> (probability that both dice show the specified values).</li>
+            </ul>
+            <p>Since \( P(A \cap B) = P(A) \cdot P(B) \), events \(A\) and \(B\) are independent.</p>
+        </div>
+
+        <div class="section">
+            <h3>Analogy with Conditional Probability</h3>
+            <p>If two events \(A\) and \(B\) are independent, then knowing that \(B\) has occurred does not change the probability of \(A\) occurring:</p>
+            <p><strong>\( P(A | B) = P(A) \)</strong> and similarly <strong>\( P(B | A) = P(B) \)</strong>.</p>
+            <p>This means that for independent events, the occurrence of one event provides no additional information about the likelihood of the other event occurring.</p>
+        </div>
+    </div>
+</body>
+</html>
