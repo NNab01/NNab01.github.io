@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shannon Entropy, Diversity Measures, and Primitive Roots</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        h2 {
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 90%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shannon Entropy, Diversity Measures, and Primitive Roots</h1>
+
+    <section>
+        <h2>Shannon Entropy</h2>
+        <p><strong>Shannon Entropy</strong>, introduced by Claude Shannon in his 1948 paper on information theory, quantifies the uncertainty or randomness of a probability distribution. It measures the expected amount of information needed to describe the outcome of a random variable.</p>
+        <p>The entropy <strong>H(X)</strong> of a discrete random variable <strong>X</strong> with a probability distribution <strong>P(x)</strong> is defined as:</p>
+        <p><code>H(X) = - Σ P(x) log₂ P(x)</code></p>
+        <p>Here:</p>
+        <ul>
+            <li><code>P(x)</code> is the probability of the outcome <code>x</code>.</li>
+            <li>The summation runs over all possible outcomes of <code>X</code>.</li>
+            <li>Base 2 logarithm is commonly used, yielding entropy in bits.</li>
+        </ul>
+        <p><strong>Properties of Shannon Entropy:</strong></p>
+        <ul>
+            <li>Entropy is maximized when all outcomes are equally likely (maximum uncertainty).</li>
+            <li>If a single outcome is certain, entropy is zero (no uncertainty).</li>
+            <li>Entropy is additive for independent systems: <code>H(X, Y) = H(X) + H(Y)</code>.</li>
+        </ul>
+        <p>Shannon Entropy is widely applied in fields such as data compression, cryptography, and machine learning.</p>
+    </section>
+
+    <section>
+        <h2>Other Diversity Measures of Distributions</h2>
+        <p>Beyond Shannon Entropy, several other measures assess the diversity, variability, or evenness of a distribution:</p>
+        <ul>
+            <li><strong>Simpson's Diversity Index:</strong> Measures the probability that two randomly selected items from a population belong to the same category:
+                <code>D = Σ P(x)²</code>. A lower value indicates greater diversity.</li>
+            <li><strong>Gini-Simpson Index:</strong> A complement of Simpson's Index, <code>1 - D</code>, representing the probability of two items belonging to different categories.</li>
+            <li><strong>Renyi Entropy:</strong> A generalization of Shannon Entropy, parameterized by <code>α</code>:
+                <code>H_α(X) = 1/(1-α) log(Σ P(x)^α)</code>. It emphasizes rare or common outcomes depending on <code>α</code>.</li>
+            <li><strong>Hill Numbers:</strong> Represent effective species richness and depend on an order parameter <code>q</code>:
+                <code>N_q = (Σ P(x)^q)^(1/(1-q))</code>.</li>
+            <li><strong>Evenness Measures:</strong> Quantify how uniformly probabilities are distributed, e.g., Pielou's Evenness Index.</li>
+        </ul>
+        <p>Each measure provides unique insights into the structure and variability of distributions in ecological, statistical, and data sciences.</p>
+    </section>
+
+    <section>
+        <h2>Primitive Roots</h2>
+        <p>A <strong>primitive root</strong> modulo a prime number <code>p</code> is an integer <code>g</code> such that for every integer <code>a</code> coprime to <code>p</code>, there exists an integer <code>k</code> satisfying:</p>
+        <p><code>g^k ≡ a (mod p)</code></p>
+        <p>The integer <code>g</code> generates all integers coprime to <code>p</code> under modular arithmetic. For a prime <code>p</code>, there are <code>φ(p-1)</code> primitive roots, where <code>φ</code> is Euler's totient function.</p>
+        <p><strong>Examples:</strong></p>
+        <ul>
+            <li>For <code>p = 7</code>, the primitive roots are <code>3</code> and <code>5</code>.</li>
+            <li>For <code>p = 11</code>, the primitive roots are <code>2, 6, 7,</code> and <code>8</code>.</li>
+        </ul>
+        <p><strong>Applications:</strong> Primitive roots are foundational in number theory and cryptography, particularly in algorithms like Diffie-Hellman key exchange and RSA encryption.</p>
+    </section>
+</body>
+</html>
