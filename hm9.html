@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampling Mean, Variance, and the Law of Large Numbers</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Sampling Mean, Variance, and the Law of Large Numbers</h1>
+</header>
+
+<main>
+    <h2>Properties of Sampling Mean and Variance</h2>
+    <p>The sampling mean (\(\bar{X}\)) and sampling variance (\(S^2\)) are crucial statistical measures with the following properties:</p>
+    <ul>
+        <li><strong>Sampling Mean (\(\bar{X}\)):</strong> 
+            <ul>
+                <li>Unbiased: The expected value of the sample mean equals the population mean, \(E[\bar{X}] = \mu\).</li>
+                <li>Efficient: It is the most efficient estimator for the population mean under certain conditions.</li>
+                <li>Distribution: For sufficiently large sample sizes, \(\bar{X}\) follows a normal distribution due to the Central Limit Theorem.</li>
+            </ul>
+        </li>
+        <li><strong>Sampling Variance (\(S^2\)):</strong> 
+            <ul>
+                <li>Unbiased: \(E[S^2] = \sigma^2\) for an unbiased estimator.</li>
+                <li>Measures the spread of data within a sample.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Law of Large Numbers</h2>
+    <p>The Law of Large Numbers (LLN) states that as the size of a sample increases, the sample mean (\(\bar{X}\)) approaches the population mean (\(\mu\)).</p>
+    <h3>Mathematical Formulation</h3>
+    <pre>
+        \[
+        \lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1, \text{ for any } \epsilon > 0
+        \]
+    </pre>
+    <p>This guarantees that larger samples provide more accurate estimates of population parameters.</p>
+
+    <h3>Applications in Cybersecurity</h3>
+    <p>The LLN has several practical applications in cybersecurity, including:</p>
+    <ul>
+        <li><strong>Intrusion Detection:</strong> Monitoring large datasets of network traffic to identify anomalies by estimating baseline behaviors.</li>
+        <li><strong>Risk Assessment:</strong> Estimating the average time between security breaches to improve defensive strategies.</li>
+        <li><strong>Randomness Testing:</strong> Evaluating the fairness of cryptographic random number generators over large samples.</li>
+    </ul>
+</main>
+
+</body>
+</html>
