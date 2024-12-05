@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampling Averages and Variances</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        canvas {
+            margin: 20px auto;
+            display: block;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sampling Averages and Variances</h1>
+<h2>Distribution of Sample Means</h2>
+<canvas id="meanChart" width="800" height="400"></canvas>
+<h2>Distribution of Corrected Variances</h2>
+<canvas id="varianceChart" width="800" height="400"></canvas>
+<h2>Summary Statistics</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Sample Size (n)</th>
+            <th>Mean of Means</th>
+            <th>Variance of Means</th>
+            <th>Mean Corrected Variance</th>
+            <th>Theoretical Mean</th>
+            <th>Theoretical Variance</th>
+        </tr>
+    </thead>
+    <tbody id="summaryTable"></tbody>
+</table>
+
+<script>
+    // Parameters
+    const m = 1000; // Number of samples
+    const nValues = [20, 30, 100]; // Sample sizes
+    const parentDistribution = [1, 2, 3, 4, 5, 6]; // Discrete distribution (e.g., dice outcomes)
+    const probabilities = Array(6).fill(1 / 6); // Uniform probabilities
+
+    // Helper function to draw random samples
+    function sampleDistribution(size) {
+        const samples = [];
+        for (let i = 0; i < size; i++) {
+            const r = Math.random();
+            let cumulative = 0;
+            for (let j = 0; j < parentDistribution.length; j++) {
+                cumulative += probabilities[j];
+                if (r <= cumulative) {
+                    samples.push(parentDistribution[j]);
+                    break;
+                }
+            }
+        }
+        return samples;
+    }
+
+    // Compute statistics and generate results
+    const results = [];
+    nValues.forEach(n => {
+        const sampleMeans = [];
+        const correctedVariances = [];
+        const theoreticalMean = parentDistribution.reduce((sum, x, i) => sum + x * probabilities[i], 0);
+        const theoreticalVariance = parentDistribution.reduce((sum, x, i) => sum + probabilities[i] * Math.pow(x - theoreticalMean, 2), 0);
+
+        for (let i = 0; i < m; i++) {
+            const sample = sampleDistribution(n);
+            const mean = sample.reduce((a, b) => a + b, 0) / n;
+            sampleMeans.push(mean);
+
+            const variance = sample.reduce((sum, x) => sum + Math.pow(x - mean, 2), 0) / (n - 1);
+            correctedVariances.push(variance);
+        }
+
+        results.push({
+            n,
+            meanOfMeans: sampleMeans.reduce((a, b) => a + b, 0) / m,
+            varianceOfMeans: sampleMeans.reduce((sum, x) => sum + Math.pow(x - theoreticalMean, 2), 0) / m,
+            meanCorrectedVariance: correctedVariances.reduce((a, b) => a + b, 0) / m,
+            theoreticalMean,
+            theoreticalVariance,
+            sampleMeans,
+            correctedVariances
+        });
+    });
+
+    // Populate the summary table
+    const summaryTable = document.getElementById('summaryTable');
+    results.forEach(result => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${result.n}</td>
+            <td>${result.meanOfMeans.toFixed(4)}</td>
+            <td>${result.varianceOfMeans.toFixed(4)}</td>
+            <td>${result.meanCorrectedVariance.toFixed(4)}</td>
+            <td>${result.theoreticalMean.toFixed(4)}</td>
+            <td>${result.theoreticalVariance.toFixed(4)}</td>
+        `;
+        summaryTable.appendChild(row);
+    });
+
+    // Create charts
+    function createChart(canvasId, label, data, color) {
+        new Chart(document.getElementById(canvasId), {
+            type: 'line',
+            data: {
+                labels: Array.from({ length: m }, (_, i) => i + 1),
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: color,
+                    borderWidth: 1,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { display: false },
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    createChart(
+        'meanChart',
+        'Sample Means (n=100)',
+        results.find(result => result.n === 100).sampleMeans,
+        'blue'
+    );
+
+    createChart(
+        'varianceChart',
+        'Corrected Variances (n=100)',
+        results.find(result => result.n === 100).correctedVariances,
+        'green'
+    );
+</script>
+</body>
+</html>
