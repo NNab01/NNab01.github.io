@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generalized SDE Simulator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        canvas {
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: block;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            margin: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generalized SDE Simulator</h1>
+    <button onclick="runSimulation()">Run Simulation</button>
+    <canvas id="trajectoryChart" width="800" height="400"></canvas>
+
+    <script>
+        class SDEManager {
+            constructor() {
+                this.sdes = [];
+            }
+
+            addSDE(name, drift, diffusion, initialValue = 0) {
+                this.sdes.push({ name, drift, diffusion, initialValue });
+            }
+
+            simulate(totalTime, timeStep) {
+                const steps = Math.floor(totalTime / timeStep);
+                return this.sdes.map(sde => {
+                    let x = sde.initialValue;
+                    const trajectory = [x];
+
+                    for (let i = 0; i < steps; i++) {
+                        const dW = Math.sqrt(timeStep) * this.randomNormal();
+                        x += sde.drift(x) * timeStep + sde.diffusion(x) * dW;
+                        trajectory.push(x);
+                    }
+
+                    return { name: sde.name, trajectory };
+                });
+            }
+
+            randomNormal() {
+                let u1 = Math.random();
+                let u2 = Math.random();
+                return Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+            }
+        }
+
+        function visualizeSDE(simulationData) {
+            const labels = Array.from({ length: simulationData[0].trajectory.length }, (_, i) => i);
+
+            const datasets = simulationData.map(sde => ({
+                label: sde.name,
+                data: sde.trajectory,
+                borderColor: generateRandomColor(),
+                fill: false,
+            }));
+
+            const ctx = document.getElementById('trajectoryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets
+                },
+                options: {
+                    scales: {
+                        x: { title: { display: true, text: 'Time Step' } },
+                        y: { title: { display: true, text: 'Value' }, beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        function generateRandomColor() {
+            return `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.7)`;
+        }
+
+        function runSimulation() {
+            const manager = new SDEManager();
+            manager.addSDE('Geometric Brownian Motion', x => 0.1 * x, x => 0.2 * x, 1);
+            manager.addSDE('Ornstein-Uhlenbeck', x => -0.5 * x, () => 0.1, 0);
+
+            const results = manager.simulate(1, 0.01); // 1 second, 0.01 time step
+            visualizeSDE(results);
+        }
+    </script>
+</body>
+</html>
