@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework 5 - Cauchy-Schwarz Inequality and Independence vs Uncorrelation</title>
+    <style>
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main, .exercise {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        code {
+            background-color: #e7f4f9;
+            color: #34495e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 1.1em;
+        }
+        ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+        /* Styling for block code segments */
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 1.1em;
+        }
+        /* Styling for section headers */
+        .section-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Homework 5: Cauchy-Schwarz and Independence vs Uncorrelation</h1>
+    </header>
+    <main>
+        <h2>A Quick Proof of the Cauchy-Schwarz Inequality</h2>
+        <p>
+            Let <code>u</code> and <code>v</code> be two vectors in <code>Rⁿ</code>. The Cauchy-Schwarz inequality states that:
+        </p>
+        <p style="text-align: center;">|u · v| ≤ |u||v|.</p>
+        <p>
+            Written out in coordinates, this says:
+        </p>
+        <p style="text-align: center;">
+            |u₁v₁ + u₂v₂ + ··· + uₙvₙ| ≤ √(u₁² + u₂² + ··· + uₙ²) √(v₁² + v₂² + ··· + vₙ²).
+        </p>
+        <p>
+            This equation ensures that vectors behave as we geometrically expect. For example, we know that:
+        </p>
+        <p style="text-align: center;">
+            |u + v|² = (u + v) · (u + v) = u · u + v · v + 2u · v = |u|² + |v|² + 2u · v.
+        </p>
+        <p>
+            Using the Cauchy-Schwarz inequality, we have:
+        </p>
+        <p style="text-align: center;">
+            |u|² + |v|² + 2u · v ≤ |u|² + |v|² + 2|u||v| = (|u| + |v|)².
+        </p>
+        <p>
+            So the Cauchy-Schwarz inequality tells us that:
+        </p>
+        <p style="text-align: center;">|u + v|² ≤ (|u| + |v|)² or |u + v| ≤ |u| + |v|.</p>
+        <p>
+            In other words, the length of the sum of two vectors is no more than the sum of their lengths. This result aligns
+            with our geometric intuition, as <code>u · v = |u||v| cos θ</code>, and <code>cos θ ≤ 1</code>.
+        </p>
+        <p>
+            For a direct proof (avoiding geometric intuition), consider any vector <code>w</code>. We know:
+        </p>
+        <p style="text-align: center;">w · w = w₁² + w₂² + ··· + wₙ² ≥ 0.</p>
+        <p>
+            Rescale <code>u</code> and <code>v</code> to have the same length, and consider the vector <code>|u|v - |v|u</code>:
+        </p>
+        <p>
+            Compute its dot product with itself:
+        </p>
+        <p style="text-align: center;">
+            0 ≤ (|u|v - |v|u) · (|u|v - |v|u) = |u|²(v · v) - 2|u||v|(u · v) + |v|²(u · u).
+        </p>
+        <p>
+            Rearranging:
+        </p>
+        <p style="text-align: center;">2|u||v|(u · v) ≤ 2|u|²|v|², or u · v ≤ |u||v|.</p>
+        <p>
+            A similar argument using <code>(|u|v + |v|u)</code> shows that <code>-u · v ≤ |u||v|</code>, so:
+        </p>
+        <p style="text-align: center;">|u · v| ≤ |u||v|, as promised.</p>
+
+        <h2>Independence vs Uncorrelation</h2>
+        <p>
+            <strong>Conceptual Difference:</strong> Independence implies uncorrelation, but uncorrelation does not imply independence.
+            If two random variables <code>X</code> and <code>Y</code> are independent, their joint probability distribution
+            factorizes as:
+        </p>
+        <p style="text-align: center;">P(X, Y) = P(X) * P(Y)</p>
+        <p>
+            This independence guarantees that the covariance and correlation coefficient will both be zero. On the other hand,
+            uncorrelation is defined purely in terms of the covariance:
+        </p>
+        <p style="text-align: center;">Cov(X, Y) = E[XY] - E[X]E[Y] = 0</p>
+        <p>
+            While uncorrelation indicates a lack of linear relationship, it does not rule out higher-order dependencies or
+            nonlinear relationships.
+        </p>
+
+        <h2>Possible Measures</h2>
+        <ul>
+            <li>
+                <strong>For independence:</strong> Use metrics such as mutual information or tests for independence like the
+                Chi-squared test or the Kolmogorov-Smirnov test.
+            </li>
+            <li>
+                <strong>For uncorrelation:</strong> Check the correlation coefficient, or directly compute the covariance.
+            </li>
+        </ul>
+
+        <p>
+            Independence is a stronger concept and often more difficult to verify, while uncorrelation provides a simpler,
+            yet less comprehensive measure of relationship.
+        </p>
+    </main>
+    <footer>
+        <p>&copy; 2024 Homework 5. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
