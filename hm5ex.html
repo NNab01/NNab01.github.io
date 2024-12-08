@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generalized SDE Simulator</title>
+    <title>Enhanced SDE Simulator</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -37,14 +38,41 @@
         button:hover {
             background-color: #45a049;
         }
+        #controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #controls label {
+            margin: 5px;
+        }
+        #sdeSelector {
+            margin: 10px;
+            padding: 10px;
+            font-size: 1em;
+        }
     </style>
 </head>
 <body>
-    <h1>Generalized SDE Simulator</h1>
-    <button onclick="runSimulation()">Run Simulation</button>
+    <h1>Enhanced SDE Simulator</h1>
+    <div id="controls">
+        <label>Total Time: <input type="number" id="totalTime" value="1" step="0.1"></label>
+        <label>Time Step: <input type="number" id="timeStep" value="0.01" step="0.01"></label>
+        <label for="sdeSelector">Select SDE:</label>
+        <select id="sdeSelector" multiple size="5">
+            <option value="gbm">Geometric Brownian Motion</option>
+            <option value="ou">Ornstein-Uhlenbeck</option>
+            <option value="custom1">Sinusoidal Drift</option>
+            <option value="custom2">Exponential Diffusion</option>
+        </select>
+        <button onclick="runSimulation()">Run Simulation</button>
+    </div>
     <canvas id="trajectoryChart" width="800" height="400"></canvas>
 
     <script>
+        let currentChart = null;
+
         class SDEManager {
             constructor() {
                 this.sdes = [];
@@ -66,6 +94,7 @@
                         trajectory.push(x);
                     }
 
+                    console.log(`SDE: ${sde.name}, Trajectory:`, trajectory);
                     return { name: sde.name, trajectory };
                 });
             }
@@ -78,6 +107,11 @@
         }
 
         function visualizeSDE(simulationData) {
+            if (simulationData.length === 0) {
+                alert("No SDE selected. Please select at least one SDE to simulate.");
+                return;
+            }
+
             const labels = Array.from({ length: simulationData[0].trajectory.length }, (_, i) => i);
 
             const datasets = simulationData.map(sde => ({
@@ -87,8 +121,12 @@
                 fill: false,
             }));
 
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
             const ctx = document.getElementById('trajectoryChart').getContext('2d');
-            new Chart(ctx, {
+            currentChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels,
@@ -97,7 +135,7 @@
                 options: {
                     scales: {
                         x: { title: { display: true, text: 'Time Step' } },
-                        y: { title: { display: true, text: 'Value' }, beginAtZero: true }
+                        y: { title: { display: true, text: 'Value' }, beginAtZero: false }
                     }
                 }
             });
@@ -108,11 +146,28 @@
         }
 
         function runSimulation() {
-            const manager = new SDEManager();
-            manager.addSDE('Geometric Brownian Motion', x => 0.1 * x, x => 0.2 * x, 1);
-            manager.addSDE('Ornstein-Uhlenbeck', x => -0.5 * x, () => 0.1, 0);
+            const totalTime = parseFloat(document.getElementById('totalTime').value);
+            const timeStep = parseFloat(document.getElementById('timeStep').value);
 
-            const results = manager.simulate(1, 0.01); // 1 second, 0.01 time step
+            const manager = new SDEManager();
+
+            const selectedSDEs = Array.from(document.getElementById('sdeSelector').selectedOptions).map(option => option.value);
+            console.log("Selected SDEs:", selectedSDEs);
+
+            if (selectedSDEs.includes("gbm")) {
+                manager.addSDE('Geometric Brownian Motion', x => 0.1 * x, x => 0.2 * x, 1);
+            }
+            if (selectedSDEs.includes("ou")) {
+                manager.addSDE('Ornstein-Uhlenbeck', x => -0.5 * x, () => 0.1, 0);
+            }
+            if (selectedSDEs.includes("custom1")) {
+                manager.addSDE('Sinusoidal Drift', x => Math.sin(x), () => 0.3, 0.5);
+            }
+            if (selectedSDEs.includes("custom2")) {
+                manager.addSDE('Exponential Diffusion', x => -0.2 * x, x => Math.exp(-x), 0.1);
+            }
+
+            const results = manager.simulate(totalTime, timeStep);
             visualizeSDE(results);
         }
     </script>
