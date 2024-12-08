@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discrete Probability Simulation with Fixed Sample Sizes</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        canvas {
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: block;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            margin: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Discrete Probability Simulation with Fixed Sample Sizes</h1>
+    <div id="controls">
+        <button onclick="runSimulation()">Run Simulation</button>
+    </div>
+    <canvas id="empiricalChart" width="800" height="400"></canvas>
+    <canvas id="meanVarianceChart" width="800" height="400"></canvas>
+
+    <script>
+        function generateRandomIndex(probabilities) {
+            const cumulative = [];
+            probabilities.reduce((acc, prob) => {
+                cumulative.push(acc + prob);
+                return acc + prob;
+            }, 0);
+
+            const random = Math.random();
+            return cumulative.findIndex(c => random <= c);
+        }
+
+        function runSimulation() {
+            const theoreticalProbs = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25]; // Diverse probabilities
+            const outcomes = [-2, -1, 0, 1, 2, 3]; // Diverse outcomes
+            const theoreticalMean = outcomes.reduce((acc, o, i) => acc + o * theoreticalProbs[i], 0);
+            const theoreticalVariance = outcomes.reduce((acc, o, i) => acc + theoreticalProbs[i] * Math.pow(o - theoreticalMean, 2), 0);
+
+            const sampleSizes = [10, 100, 500, 1000, 2000]; // Fixed sample sizes
+            const empiricalCounts = new Array(outcomes.length).fill(0);
+            const empiricalProbs = [];
+            const means = [];
+            const variances = [];
+
+            let mean = 0;
+            let m2 = 0;
+
+            for (let n = 1; n <= Math.max(...sampleSizes); n++) {
+                const index = generateRandomIndex(theoreticalProbs);
+                empiricalCounts[index] += 1;
+
+                const x = outcomes[index];
+                const delta = x - mean;
+                mean += delta / n;
+                m2 += delta * (x - mean);
+
+                if (sampleSizes.includes(n)) {
+                    empiricalProbs.push(empiricalCounts.map(c => c / n));
+                    means.push(mean);
+                    variances.push(m2 / n);
+                }
+            }
+
+            plotEmpiricalDistribution(empiricalProbs, sampleSizes, theoreticalProbs);
+            plotMeanVariance(sampleSizes, means, variances, theoreticalMean, theoreticalVariance);
+        }
+
+        function plotEmpiricalDistribution(empiricalProbs, sampleSizes, theoreticalProbs) {
+            const labels = sampleSizes.map(n => `n=${n}`);
+
+            const datasets = theoreticalProbs.map((p, i) => ({
+                label: `Outcome ${i} (Theoretical: ${p.toFixed(2)})`,
+                data: empiricalProbs.map(probs => probs[i]),
+                fill: false,
+                borderColor: getRandomColor(),
+                tension: 0.1
+            }));
+
+            const ctx = document.getElementById('empiricalChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Empirical Distribution Convergence'
+                        }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Sample Size' } },
+                        y: { title: { display: true, text: 'Probability' }, beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        function plotMeanVariance(sampleSizes, means, variances, theoreticalMean, theoreticalVariance) {
+            const ctx = document.getElementById('meanVarianceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: sampleSizes,
+                    datasets: [
+                        {
+                            label: 'Empirical Mean',
+                            data: means,
+                            borderColor: 'blue',
+                            fill: false
+                        },
+                        {
+                            label: 'Theoretical Mean',
+                            data: Array(sampleSizes.length).fill(theoreticalMean),
+                            borderColor: 'blue',
+                            borderDash: [5, 5],
+                            fill: false
+                        },
+                        {
+                            label: 'Empirical Variance',
+                            data: variances,
+                            borderColor: 'red',
+                            fill: false
+                        },
+                        {
+                            label: 'Theoretical Variance',
+                            data: Array(sampleSizes.length).fill(theoreticalVariance),
+                            borderColor: 'red',
+                            borderDash: [5, 5],
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Mean and Variance Convergence'
+                        }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Sample Size' } },
+                        y: { title: { display: true, text: 'Value' }, beginAtZero: false }
+                    }
+                }
+            });
+        }
+
+        function getRandomColor() {
+            return `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.7)`;
+        }
+    </script>
+</body>
+</html>
