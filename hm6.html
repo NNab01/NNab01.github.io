@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamental Theorem of Calculus and CDFs</title>
+    <style>
+        
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px 0;
+    text-align: center;
+}
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+main {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+h2 {
+    color: #2980b9;
+    margin-top: 20px;
+}
+p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+code {
+    background-color: #e7f4f9;
+    color: #34495e;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 1.1em;
+}
+ul {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+li {
+    margin-bottom: 10px;
+}
+footer {
+    text-align: center;
+    padding: 20px 0;
+    color: #777;
+    font-size: 0.9em;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fundamental Theorem of Calculus and Its Relationship with CDFs</h1>
+    </header>
+    <main>
+        <h2>1. Fundamental Theorem of Calculus (FTC)</h2>
+        <p>
+            The Fundamental Theorem of Calculus connects differentiation and integration. It has two parts:
+        </p>
+        <ol>
+            <li><strong>Part 1:</strong> If <code>F(x)</code> is the antiderivative of <code>f(x)</code>, then:</li>
+            <p class="equation"><code>F'(x) = f(x)</code></p>
+
+            <li><strong>Part 2:</strong> The definite integral of <code>f(x)</code> from <code>a</code> to <code>b</code> is given by:</li>
+            <p class="equation"><code>∫[a to b] f(x) dx = F(b) − F(a)</code></p>
+        </ol>
+
+        <p>These relationships show that integration and differentiation are inverse operations.</p>
+
+        <h2>2. Relationship Between FTC and CDFs</h2>
+        <p>The Fundamental Theorem of Calculus directly applies to cumulative distribution functions (CDFs) and probability density functions (PDFs). Here's how:</p>
+        <ul>
+            <li>The <strong>Cumulative Distribution Function (CDF)</strong>, <code>F(x)</code>, describes the probability that a random variable <code>X</code> is less than or equal to <code>x</code>:</li>
+            <p class="equation"><code>F(x) = P(X ≤ x) = ∫[-∞ to x] f(t) dt</code></p>
+            
+            <li>The <strong>Probability Density Function (PDF)</strong>, <code>f(x)</code>, represents the rate of change of the CDF:</li>
+            <p class="equation"><code>f(x) = F'(x)</code></p>
+        </ul>
+
+        <h2>3. Intuition: Connecting Area and Probability</h2>
+        <p>The CDF accumulates probability up to a certain value <code>x</code>, analogous to finding the area under a curve. The PDF, being the derivative of the CDF, tells us how "fast" the probability is accumulating at <code>x</code>.</p>
+        <p>For example:</p>
+        <ul>
+            <li>If the PDF <code>f(x)</code> is high at a point, the CDF <code>F(x)</code> increases rapidly around that point.</li>
+            <li>If the PDF is low, the CDF grows more slowly.</li>
+        </ul>
+
+        <h2>4. Example: Standard Normal Distribution</h2>
+        <p>Consider the standard normal distribution:</p>
+        <ul>
+            <li><strong>PDF:</strong> <code>f(x) = (1 / √(2π)) e^(-x² / 2)</code></li>
+            <li><strong>CDF:</strong> <code>F(x) = ∫[-∞ to x] f(t) dt</code></li>
+        </ul>
+        <p>The CDF at <code>x = 0</code> gives the probability that <code>X</code> is less than or equal to 0, which is 0.5. The PDF at <code>x = 0</code> is the maximum value of the density, reflecting the peak of the normal curve.</p>
+
+        <h2>5. Applications of the Relationship</h2>
+        <p>The connection between CDFs and PDFs has many applications:</p>
+        <ul>
+            <li><strong>Statistics:</strong> Computing probabilities, quantiles, and expectations.</li>
+            <li><strong>Machine Learning:</strong> Likelihood estimation and generative models.</li>
+            <li><strong>Finance:</strong> Modeling asset prices and risk measures.</li>
+        </ul>
+
+        <h2>6. Key Insights</h2>
+        <ul>
+            <li>The CDF <code>F(x)</code> represents cumulative probability, and the PDF <code>f(x)</code> represents the density of the random variable.</li>
+            <li>By the Fundamental Theorem of Calculus, the PDF is the derivative of the CDF, and the CDF is the integral of the PDF.</li>
+            <li>This duality underpins much of probability theory and its practical applications.</li>
+        </ul>
+
+<!-- Section for Exercise -->
+<h2 class="section-title">Exercise</h2>
+<div class="exercise">
+    <p><strong>Assignment:</strong></p>
+    <p>Exercise: Generate realizations from a discrete univariate probability distribution with arbitrary probabilities. Graphically show the convergence of the empirical distribution to the theoretical distribution as the sample size increases. Compute also, during the generation, the mean and variance using recursive methods (e.g., Knuth's/Welford's algorithms) and compare these results with the theoretical mean and variance, discussing the relationship.</p>
+
+    <p>You can find the code for this exercise <a href="https://github.com/NNab01/NNab01.github.io/blob/main/hm6ex.html">here</a>, and the online result can be accessed <a href="hm6ex.html">here</a>.</p>
+</div>
+
+    </main>
+    <footer>
+        <p>&copy; 2024 Fundamental Theorem of Calculus. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
