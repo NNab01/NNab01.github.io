@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributions of Y</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        code {
+            background-color: #e7f4f9;
+            color: #34495e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 1.1em;
+        }
+        ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Distributions of Y</h1>
+</header>
+
+<main>
+    <h2>Introduction</h2>
+    <p>
+        This analysis explores the random variable \( Y = g^U \mod n \), where \( U \) is uniformly distributed
+        over \([1, \text{max\_U}]\). The goal is to observe the shape of the distributions of \( Y \) for various
+        parameters \( n \) and \( g \), and to compute the Shannon entropy of these distributions.
+    </p>
+
+    <h2>Results for \( n = 19 \)</h2>
+    <p>Below are the distributions of \( Y \) for \( n = 19 \) and different values of \( g \):</p>
+    <ul>
+        <li>\( g = 2 \): Entropy = 0.601</li>
+        <li>\( g = 3 \): Entropy = 4.234</li>
+        <li>\( g = 10 \): Entropy = 0.593</li>
+        <li>\( g = 17 \): Entropy = 4.233</li>
+    </ul>
+    <img src="distribution_15.png" alt="Distributions for n=15">
+
+    <h2>Results for \( n = 15 \)</h2>
+    <p>Below are the distributions of \( Y \) for \( n = 15 \) and different values of \( g \):</p>
+    <ul>
+        <li>\( g = 3 \): Entropy = 3.903</li>
+        <li>\( g = 6 \): Entropy = 0.522</li>
+        <li>\( g = 9 \): Entropy = 3.898</li>
+        <li>\( g = 12 \): Entropy = 0.294</li>
+    </ul>
+    <img src="distribution_19.png" alt="Distributions for n=19">
+
+    <h2>Observations</h2>
+    <p>
+        The distributions show significant variation depending on the values of \( n \) and \( g \):
+    </p>
+    <ul>
+        <li>For some values of \( g \), the distributions are uniform, leading to higher entropy.</li>
+        <li>For other values of \( g \), the distributions are concentrated on a few values, resulting in lower entropy.</li>
+    </ul>
+    <p>
+        The Shannon entropy highlights the diversity of the distributions. Higher entropy indicates a more uniform
+        distribution, while lower entropy suggests more predictability or concentration in the outcomes.
+    </p>
+
+    <h2>Implications for Cryptographic Properties</h2>
+    <p>
+        Uniform distributions (e.g., high entropy cases such as \( g = 3 \) for \( n = 19 \)) are desirable for cryptographic applications because they ensure unpredictability. In cryptography, unpredictability minimizes the risk of an attacker deducing the underlying structure or patterns in the data. For example, a uniform distribution of encryption outputs ensures that no particular ciphertext is more likely than another, enhancing security.
+    </p>
+    <p>
+        Conversely, predictable distributions (e.g., low entropy cases such as \( g = 12 \) for \( n = 15 \)) illustrate potential vulnerabilities. Predictable outputs mean that an attacker could exploit the non-uniformity to narrow down the possible plaintexts or keys, reducing the effective security of the system. Low entropy can also indicate weak key selection, which is a common vulnerability in many cryptographic implementations.
+    </p>
+    <p>
+        Case A (high entropy) is better suited for cryptographic applications as it maximizes the uncertainty and ensures that each possible output is equally probable. This property is essential for resisting statistical and brute-force attacks. Case B, with lower entropy and higher predictability, demonstrates why careful parameter selection is crucial in cryptographic algorithms. Improper choices can result in skewed distributions, leaving the system open to exploitation.
+    </p>
+
+    <h2>Why Choose the Set \( \{2, 3, 10, 17\} \) in Case A?</h2>
+    <p>
+        The set \( \{2, 3, 10, 17\} \) is chosen in Case A because these values of \( g \) produce diverse behaviors when used in the computation \( g^U \mod n \). For instance:
+    </p>
+    <ul>
+        <li>\( g = 2 \): Produces a low entropy distribution with concentrated probabilities.</li>
+        <li>\( g = 3 \): Generates a nearly uniform distribution, ideal for cryptographic applications.</li>
+        <li>\( g = 10 \): Similar to \( g = 2 \), creates a distribution with significant concentration on certain values.</li>
+        <li>\( g = 17 \): Like \( g = 3 \), results in a high entropy and uniform distribution.</li>
+    </ul>
+    <p>
+        These specific values were likely selected to showcase both high-entropy and low-entropy scenarios, highlighting their implications for cryptographic security. By including both types of behavior, the exercise emphasizes the importance of selecting appropriate parameters for cryptographic algorithms.
+    </p>
+
+    <h2>Spotting Possible Errors in the Exercise</h2>
+    <p>
+        While the exercise provides valuable insights, potential issues include:
+    </p>
+    <ul>
+        <li>The range of \( U \) (\([1, \text{max\_U}])\) might not be representative of real-world cryptographic scenarios. Larger ranges could better demonstrate uniformity.</li>
+        <li>The choice of \( n \) and \( g \) may inadvertently introduce biases that are not explicitly discussed. For example, small values of \( n \) might limit the diversity of possible outputs.</li>
+        <li>It assumes that the results are directly applicable to cryptographic systems, but real-world cryptography involves additional complexities such as key management and randomness sources.</li>
+    </ul>
+</main>
+
+<footer>
+    <p>&copy; 2024 Distribution Analysis of Random Variable Y. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

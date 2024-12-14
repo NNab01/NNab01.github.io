@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modular exponentiation</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        code {
+            background-color: #e7f4f9;
+            color: #34495e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 1.1em;
+        }
+        ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+        /* Styling for block code segments */
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 1.1em;
+        }
+        /* Styling for section headers */
+        .section-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Modular exponentiation</h1>
+</header>
+
+<main>
+    <h2>Plaintext and Ciphertext</h2>
+    <p><strong>Plaintext:</strong></p>
+    <p>
+        THIS IS A SIMPLE EXAMPLE TO DEMONSTRATE ENCODING STRATEGIES USING MODULAR ARITHMETIC. 
+        LET US EXPLORE HOW TO MAP EACH LETTER TO A NUMERIC VALUE AND PERFORM ENCODING.
+    </p>
+    <p><strong>Encoded Ciphertext:</strong></p>
+    <p style="word-break: break-word; white-space: pre-wrap;">
+        1410312323313017201620341117231625161022112034143331053023203010143126203423343034000020341117310031232310313007003003230001402326203431223032200120111623001116231533302012200023222516113330100323
+    </p>
+
+    <h2>Deduction of Modulus (P) and Exponent (e)</h2>
+    <p>We deduced the encryption parameters by analyzing the ciphertext and plaintext:</p>
+    <ul>
+        <li><strong>Modulus (P):</strong> The encoded values range from 0 to 36, suggesting a modulus of <code>P = 37</code>, the smallest prime greater than 36.</li>
+        <li><strong>Exponent (e):</strong> By testing small values, we verified that <code>e = 3</code> satisfies the formula <code>E = L^e mod P</code> for all numeric representations.</li>
+    </ul>
+
+    <h2>Analysis of Distributions</h2>
+    <h3>Original Numeric Distribution</h3>
+    <p>The numeric representation of the plaintext characters is analyzed below. Each character from the plaintext is assigned a numeric value between 0 and 25 corresponding to the alphabet.</p>
+    <h4>Shannon Entropy:</h4>
+    <p>The Shannon entropy of the numeric representation distribution is: <strong>4.014</strong></p>
+
+    <h3>Encoded Distribution</h3>
+    <p>After applying the encryption scheme, the encoded values were analyzed for their frequency distribution. The transformation modifies the original distribution due to the modular arithmetic and exponentiation.</p>
+    <h4>Shannon Entropy:</h4>
+    <p>The Shannon entropy of the encoded value distribution is: <strong>3.331</strong></p>
+
+    <h2>Visualizing the Distributions</h2>
+    <p>The following figures illustrate the distributions of the numeric representations and the encoded values:</p>
+    <img src="numeric_distribution.png" alt="Numeric Representation Distribution" style="width:100%; margin-bottom:20px;">
+    <img src="encoded_distribution.png" alt="Encoded Value Distribution" style="width:100%;">
+
+    <h2>The Role of Statistical Analysis in Cryptography</h2>
+    <p>Statistical analysis is a cornerstone for understanding the behavior and vulnerabilities of cryptographic algorithms. By examining distributions, entropy, and other properties, analysts can uncover patterns that may hint at weaknesses in encryption schemes. This understanding is critical in developing secure systems that resist attacks.</p>
+    <p>For example, frequency analysis is a classic cryptanalysis method. If a cipher does not sufficiently obscure the statistical characteristics of the plaintext, an attacker can match the ciphertext frequencies to known letter distributions in a given language, effectively breaking the cipher. The Caesar cipher and simple substitution ciphers are highly vulnerable to this kind of attack.</p>
+    <p>Modern encryption schemes, like AES and RSA, are designed to avoid statistical weaknesses. However, analyzing their output distributions can still reveal implementation flaws, such as insufficient randomness in key generation or side-channel leaks. For instance, timing attacks on RSA exploit statistical variations in encryption or decryption times to deduce private keys.</p>
+    <p>Understanding the statistical properties of cryptographic transformations is also essential in evaluating the entropy of keys and outputs. High entropy indicates unpredictability, which is a desired property of secure systems. Entropy analysis can also help identify weak key generation practices or predictable patterns in encryption outputs.</p>
+    <p>For cybersecurity professionals, mastering statistical tools is vital for analyzing cryptographic algorithms and ensuring the robustness of secure communications. These skills are increasingly important as attackers develop more sophisticated methods to exploit statistical flaws in encryption systems.</p>
+</main>
+
+</body>
+</html>
