@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Substitution Cipher Analysis</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main, .exercise {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Substitution Cipher Analysis</h1>
+</header>
+
+<main>
+    <h2>1. Substitution Key</h2>
+    <p>The randomly generated substitution key is as follows:</p>
+    <pre>A -> E, B -> T, C -> W, D -> S, E -> H, F -> C, G -> K, H -> I,
+I -> V, J -> Z, K -> R, L -> N, M -> J, N -> D, O -> U, P -> M,
+Q -> X, R -> G, S -> O, T -> Y, U -> Q, V -> P, W -> F, X -> B,
+Y -> L, Z -> A</pre>
+
+    <h2>2. Original and Encrypted Messages</h2>
+    <p><strong>Original Message:</strong> HELLO WORLD</p>
+    <p><strong>Encrypted Message:</strong> IHNNU FUGNS</p>
+
+    <h2>3. Permutation Step</h2>
+    <p>Reversing the encrypted message gives the final result:</p>
+    <p><strong>Final Encrypted Message:</strong> SNGUF UNNHI</p>
+
+    <h2>4. Frequency Distribution Changes</h2>
+    <p><strong>Frequency Distribution (Original and Encrypted):</strong></p>
+    <ul>
+        <li>Original Frequencies: H: 0.1, E: 0.1, L: 0.3, O: 0.2, W: 0.1, R: 0.1, D: 0.1</li>
+        <li>Encrypted Frequencies: I: 0.1, H: 0.1, N: 0.3, U: 0.2, F: 0.1, G: 0.1, S: 0.1</li>
+        <li>Reversed Frequencies: S: 0.1, N: 0.3, G: 0.1, U: 0.2, F: 0.1, H: 0.1, I: 0.1</li>
+    </ul>
+    <p>The frequency distribution remains unchanged throughout encryption and permutation. Positional context is altered, but the statistical profile of the message remains identical.</p>
+
+    <h2>5. Entropy Considerations</h2>
+    <p><strong>Entropy Values:</strong></p>
+    <ul>
+        <li>Original Entropy: 2.646 bits</li>
+        <li>Encrypted Entropy: 2.646 bits</li>
+        <li>Reversed Entropy: 2.646 bits</li>
+    </ul>
+    <p>Since neither substitution nor permutation changes the underlying statistical distribution, the entropy remains constant, reflecting the same degree of uncertainty in all cases.</p>
+
+    <h2>6. Contrast with RSA</h2>
+    <p>Unlike substitution ciphers, RSA encryption does not preserve the statistical structure of the plaintext. It disrupts patterns entirely by transforming plaintext into a random-looking ciphertext through mathematical operations. This significantly increases security and prevents frequency analysis attacks. RSA relies on computational complexity and robust key management to ensure security.</p>
+
+    <h2>7. Final Thoughts</h2>
+    <p>Entropy is a critical factor in cryptography, as higher entropy indicates greater randomness and security. Substitution ciphers, even with permutation, fail to increase entropy and remain vulnerable to frequency analysis. Modern cryptographic systems, such as RSA and AES, focus on maximizing entropy and computational complexity to protect against attacks.</p>
+</main>
+
+<footer>
+    <p>&copy; 2024 Substitution Cipher Analysis. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
